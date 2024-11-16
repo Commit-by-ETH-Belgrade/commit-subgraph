@@ -1,0 +1,35 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Commit
+    network: sepolia
+    source:
+      address: "0x5d2Fab79A78213eAD922e036E3a3e4320390330a"
+      abi: Commit
+      startBlock: 7088902
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Created
+        - Slashed
+        - Staked
+        - Unstake
+      abis:
+        - name: Commit
+          file: ./abis/Commit.json
+      eventHandlers:
+        - event: Created(indexed uint256)
+          handler: handleCreated
+        - event: Slashed(indexed uint256,address)
+          handler: handleSlashed
+        - event: Staked(indexed address,uint256)
+          handler: handleStaked
+        - event: Unstake(indexed uint256,address)
+          handler: handleUnstake
+      file: ./src/commit.ts
